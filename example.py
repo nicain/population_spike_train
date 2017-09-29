@@ -43,7 +43,16 @@ f = NWBFile(source='noone',
 
 f.add_raw_timeseries(fs)
 
+test_file_name = 'tmp.nwb'
+
 manager = get_build_manager()
-io = HDF5IO('tmp.nwb', manager, mode='w')
+io = HDF5IO(test_file_name, manager, mode='w')
 io.write(f)
 io.close()
+
+
+io = HDF5IO(test_file_name, mode='r')
+read_data = io.read()
+pst = read_data.get_raw_timeseries('my_population')
+print pst.data[2:5]
+print pst.timestamps[2:5]
